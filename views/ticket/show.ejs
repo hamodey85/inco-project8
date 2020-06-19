@@ -10,7 +10,22 @@
       <h2>Description : <%= ticket.description %></h2>
       <h2>Responsible : <%= ticket.responsible %></h2>
       <h2>Priority : <%= ticket.priority %></h2>
+      <h2>creator : <%= ticket.creator.email %></h2>
       <h2>Status : <%= ticket.completed ? "Résolu" : "En cours" %></h2>
+      <div class="comments">
+        <% if(ticket.comments.length > 0){ ticket.comments.forEach(comment => { %>
+        <p>
+          <span><%=comment.creator.email %> said:</span>
+          <%=comment.comment %>
+        </p>
+
+        <% }); } %>
+      </div>
+      <form action="/ticket/comment" method="post">
+        <textarea name="comment" id="comment" cols="60" rows="10"></textarea>
+        <input type="hidden" name="ticketId" value="<%=ticket.id%>" />
+        <input type="submit" value="add comment" />
+      </form>
     </div>
   </body>
 </html>

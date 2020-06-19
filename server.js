@@ -8,7 +8,7 @@ const MongoStore = require('connect-mongo')(session);
 const mainRouter = require('./routes/main');
 
 // mongoose.set('useFindAndModify', false);
-let mongoConfig =  { useNewUrlParser: true,useCreateIndex:true }
+let mongoConfig =  { useNewUrlParser: true,useCreateIndex:true,useFindAndModify:false }
 mongoose.connect('mongodb://localhost/project10',mongoConfig).then(() => {
 	console.log('Connected to mongoDB')
 }).catch(e => {

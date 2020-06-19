@@ -11,6 +11,7 @@ router.get('/create', authenticateJWT, ticket.createForm);
 router.post('/create', authenticateJWT, ticket.create);
 router.get('/:id', authenticateJWT, ticket.show);
 router.get('/:id/edit', authenticateJWT, ticket.edit);
+router.post('/comment', authenticateJWT, ticket.addComment);
 router.post('/:id/update', authenticateJWT, ticket.update);
 router.get('/', authenticateJWT, ticket.list);
 

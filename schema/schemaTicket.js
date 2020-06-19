@@ -1,5 +1,17 @@
 const mongoose = require('mongoose');
 
+var commentsSchema = mongoose.Schema({
+    comment: {
+        type: String,
+        required: true
+    },
+    creator:{
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User'
+    }
+},{ timestamps: { createdAt: 'created_at' }})
+
 var ticketSchema = mongoose.Schema({
     title: {
         type: String,
@@ -10,8 +22,9 @@ var ticketSchema = mongoose.Schema({
 		required: true
 	},
 	responsible: {
-        type: String,
-        required: true
+        type: mongoose.Schema.Types.ObjectId,
+        default: null,
+        ref:"User"
     },
     priority: {
         type: String,
@@ -22,10 +35,12 @@ var ticketSchema = mongoose.Schema({
         required: true,
         default: false
     },
-    userId: {
-        type: String,
-        required: true
+    creator: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: "User"
     },
+    comments: [commentsSchema],
 },{ timestamps: { createdAt: 'created_at' }})
 
 

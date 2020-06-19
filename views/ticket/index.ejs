@@ -10,7 +10,8 @@
           <tr>
             <th class="idTicket">Tichet ID</th>
             <th class="idTicket">Title</th>
-            <th class="idTicket">email</th>
+            <th class="showTicket">created By</th>
+            <th class="showTicket">assigned To</th>
             <th class="showTicket">show Ticket</th>
             <th class="editTicket">Edit Ticket</th>
             <th>Status</th>
@@ -22,7 +23,11 @@
           <tr key="{index}">
             <td><%= ticket._id %></td>
             <td><%= ticket.title %></td>
-            <td><%= user.email %></td>
+            <td><%= ticket.creator.email %></td>
+            <td>
+              <% if( ticket.responsible!== null && "email" in ticket.responsible){
+              %><%=ticket.responsible.email %> <% } %>
+            </td>
             <td><a href="/ticket/<%= ticket._id %>" class="nav-link">view</a></td>
             <td><a href="/ticket/<%= ticket._id %>/edit" class="nav-link">edit</a></td>
             <td>
