@@ -2,7 +2,7 @@
 <html lang="fr">
   <%- include('../shared/head', {css: ['login', 'navbar']}) %>
   <body>
-    <%- include('../shared/navbar', {}) %>
+    <%- include('../shared/navbar', {admin}) %>
     <div>
       <h3>Edit Ticket n°<%= ticket._id %></h3>
       <form method="POST" action="/ticket/<%= ticket._id %>/update">

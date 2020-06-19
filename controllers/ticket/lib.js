@@ -27,7 +27,7 @@ function create(req, res) {
 }
 
 function createForm(req, res) {
-	res.status(200).render('ticket/create', {title: 'Créer ticket'});
+	res.status(200).render('ticket/create', {title: 'Créer ticket',admin:req.user.isAdmin || false});
 }
 
 function show(req, res) {
@@ -51,7 +51,7 @@ function show(req, res) {
 		})
 
 		findTicket.then(function (ticket) {
-			res.status(200).render('ticket/show', {title: `Ticket n°${ticket._id}`, ticket});
+			res.status(200).render('ticket/show', {title: `Ticket n°${ticket._id}`, ticket,admin:req.user.isAdmin || false});
 		}, function (error) {
 			switch (error) {
 				case 500:
@@ -94,7 +94,7 @@ function edit(req, res) {
 		})
 
 		findTicket.then(function (ticket) {
-			res.status(200).render('ticket/edit', {title: `Modifier ticket n°${ticket._id}`, ticket});
+			res.status(200).render('ticket/edit', {title: `Modifier ticket n°${ticket._id}`, ticket,admin:req.user.isAdmin || false});
 		}, function (error) {
 			switch (error) {
 				case 500:
@@ -117,7 +117,6 @@ function edit(req, res) {
 }
 
 function update(req, res) {
-	console.log(req.body);
 	if (!req.params.id || !req.body.description || !req.body.responsible || !req.body.priority) {
 		res.status(400).json({
 			"text": "Requête invalide"
@@ -178,7 +177,7 @@ function list(req, res) {
 	})
 
 	findTicket.then(function (tickets) {
-		res.status(200).render('ticket/index', {title: 'Liste des tickets', tickets});
+		res.status(200).render('ticket/index', {title: 'Liste des tickets', tickets,admin:req.user.isAdmin ,user:req.user });
 	}, function (error) {
 		switch (error) {
 			case 500:

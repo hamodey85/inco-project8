@@ -6,9 +6,10 @@ const path = require('path');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const mainRouter = require('./routes/main');
+
 // mongoose.set('useFindAndModify', false);
 let mongoConfig =  { useNewUrlParser: true,useCreateIndex:true }
-mongoose.connect('mongodb://localhost/projet10',mongoConfig).then(() => {
+mongoose.connect('mongodb://localhost/project10',mongoConfig).then(() => {
 	console.log('Connected to mongoDB')
 }).catch(e => {
 	console.log('Error while DB connecting');

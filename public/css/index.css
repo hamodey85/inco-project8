@@ -1,21 +1,40 @@
 table {
-	margin: auto;
-	border: 2px solid #000;
-	border-collapse: collapse;
+  margin: auto;
+  border: 2px solid #000;
+  border-collapse: collapse;
 }
 
 thead > tr > th {
-	border-bottom: 2px solid #000;
+  border-bottom: 2px solid #000;
+  padding: 10px 5px;
 }
 
 .idTicket {
-	width: 300px;
+  width: 300px;
 }
 
-.showTicket, .editTicket {
-	width: 150px;
+.showTicket,
+.editTicket {
+  width: 150px;
 }
 
-td, th {
-	text-align: center;
+td,
+th {
+  text-align: center;
+  padding: 10px 0;
+}
+
+.status_completed {
+  background: #4ace46;
+}
+.status_incomplete {
+  background: #e96868;
+}
+
+.status_span {
+  display: block;
+  width: 40px;
+  height: 40px;
+  margin: 0 auto;
+  border-radius: 50%;
 }

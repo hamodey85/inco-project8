@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const config = require('../config/config');
+const { hash, compare } = require('bcryptjs')
 
 var userSchema = mongoose.Schema({
 	email: {
@@ -13,16 +14,24 @@ var userSchema = mongoose.Schema({
 	password: {
         type: String,
         required: true
+	},
+	isAdmin: {
+        type: Boolean,
+        default:false
     }
 },{ timestamps: { createdAt: 'created_at' }})
 
 
+userSchema.pre('save', async function () {
+	if (this.isModified('password')) this.password = await hash(this.password, 12)
+  })
+
 userSchema.methods = {
-	authenticate: function (password) {
-		return password === this.password;
+	authenticate: async function (password) {
+		return await compare(password, this.password)
 	},
 	getToken: function () {
-		return jwt.sign({email: this.email}, config.secret, {expiresIn: '1d'});
+		return jwt.sign({id:this._id,email: this.email,isAdmin:this.isAdmin}, config.secret, {expiresIn: '1d'});
 	}
 }
 

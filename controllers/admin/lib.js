@@ -1,15 +1,17 @@
 const User = require('../../schema/schemaUser.js');
 
 function signup(req, res) {
-    if (!req.body.email || !req.body.password) {
+    if (!req.body.email || !req.body.password || !req.body.isAdmin) {
         //Le cas où l'email ou bien le password ne serait pas soumit ou nul
         res.status(400).json({
             "text": "invalid Request"
         })
     } else {
+
         var user = {
             email: req.body.email,
-            password: req.body.password
+            password: req.body.password,
+            isAdmin: req.body.isAdmin === "yes"? true : false
         }
         var findUser = new Promise(function (resolve, reject) {
             User.findOne({
@@ -61,56 +63,10 @@ function signup(req, res) {
 }
 
 function signupForm(req, res) {
-
-    res.status(200).render('account/signup', {title: 'Inscription'});
+    res.status(200).render('account/adminsignup', {title: 'Inscription',admin:req.user.isAdmin || false});
 }
 
-function login(req, res) {
-    if (!req.body.email || !req.body.password) {
-        //Le cas où l'email ou bien le password ne serait pas soumit ou nul
-        res.status(400).json({
-            "text": "Requête invalide"
-        })
-    } else {
-        User.findOne({
-            email: req.body.email
-        }, async function (err, user) {
-            if (err) {
-                res.status(500).json({
-                    "text": "Erreur interne"
-                })
-            }
-            else if(!user){
-                res.status(401).json({
-                    "text": "L'utilisateur n'existe pas"
-                })
-            }
-            else {
-                if (await user.authenticate(req.body.password)) {
-                    req.session.token = user.getToken();
-                    res.redirect('../../ticket/');
-                }
-                else{
-                    res.status(401).json({
-                        "text": "Mot de passe incorrect"
-                    })
-                }
-            }
-        })
-    }
-}
 
-function loginForm(req, res) {
-    res.status(200).render('account/login', {title: 'Connexion'});
-}
 
-function signout(req, res) {
-    delete req.session.token;
-    res.redirect('login');
-}
-
-exports.login = login;
-exports.loginForm = loginForm;
 exports.signup = signup;
 exports.signupForm = signupForm;
-exports.signout = signout;
